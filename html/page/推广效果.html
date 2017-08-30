@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="utf-8">
+	<title>漏斗蓄客</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="renderer" content="webkit">
+	<meta content="telephone=no" name="format-detection" /> 
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" type="text/css" href="../dist/css/mybootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../dist/css/base.css"/>
+    <!--[if lt IE 9]>
+		<script src="../dist/js/html5.min.js"></script>
+		<script src="../dist/js/respond.min.js"></script>
+		<script src="../dist/js/selectivizr-min.js"></script>
+		<![endif]-->
+	<style type="text/css">
+		/*模态框（Modal）*/
+		@media (min-width: 992px) { .modal-dialog { width: 800px; } } 
+		.modal-header { background: #eff7f5; }
+		.modal-footer { border-top: none; } 
+		table.modal-table thead>tr>th { border: none; background: #eff7f5; }
+		table.modal-table tbody>tr>td { padding: 15px; border-top: none; border-bottom: 1px solid #ddd; }
+		/*模态框（Modal） End*/
+		.form-content .table>tbody>tr>th{
+			min-width: 20%;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="container-fluid top">
+		<div class="pb20"><b class="ft20">推广效果</b></div>
+		<form class="form-content">
+			<div class="form-group pl12 pt15  top-form clearfix mb0">
+				<div class="clearfix select-lately-time text-center lh30">
+					<span class="today active">今日</span>
+					<span class="yesterday">昨日</span>
+					<span class="lately-day7">近七日</span>
+				</div>
+				<div class="dib p-rel time ">
+					<input type="text" readonly name="double_calendar" id="double_calendar" class="form-control w200 h30" value="2014-5-21 - 2014-6-21" /> 
+					<a href="javascript:;"><i class="icon icon-table_calendar input-icon"></i></a>
+				</div>
+				<div class="dib p-rel time ">
+					<input type="text" readonly  name="single_calendar" id="single_calendar" class="form-control w190 h30" value="2017-02-07">
+					<a href="javascript:;"><i class="icon icon-table_calendar input-icon"></i></a>
+				</div>
+				<div class="dib p-rel search">
+					<input type="text" class="form-control w190 h30" placeholder="查询推广楼盘" />
+					<a href="javascript:;"><i class="icon icon-table_search input-icon"></i></a>
+				</div>
+			</div>
+			<div class="table-container">
+				<table class="table mb0 tuiguang">
+					<tr>
+						<th>推广楼盘</th>
+						<th colspan="2">效果反馈</th>
+						<th>展示</th>
+						<th>投放</th>
+						<th>推广时间段</th>
+					</tr>
+		
+					<tr>
+						<td rowspan="2">
+							<span class="ellipsis dib w140 fl" title="中德英伦联邦中德英伦联邦中德英伦联邦中德英伦联邦">中德英伦联邦中德英伦联邦中德英伦联邦中德英伦联邦</span>
+							<span class="hover-more dib vm p-rel">
+									<i class="icon icon-table_more"></i>
+									<span class="tips" data-toggle="modal" data-target="#myModal">查看投放明细</span>
+							</span>
+						</td>
+						<td rowspan="2">蓄客量：7830组</td>
+						<td>线上留电：400组</td>
+						<td>搜索引擎展示:200次</td>
+						<td>关键词投放：458个</td>
+						<td>2017/02/25<i class="mr5 ml5">-</i>2017/12/15</td>
+					</tr>
+					<tr>
+						<td>线上留电：400组</td>
+						<td>搜索引擎展示:200次</td>
+						<td>关键词投放：458个</td>
+						<td>2017/02/25<i class="mr5 ml5">-</i>2017/12/15</td>
+					</tr>
+					<tr>
+						<td rowspan="2">
+							<span class="ellipsis dib w140 fl" title="中德英伦联邦中德英伦联邦中德英伦联邦中德英伦联邦">中德英伦联邦中德英伦联邦中德英伦联邦中德英伦联邦</span>
+							<span class="hover-more dib vm p-rel">
+									<i class="icon icon-table_more"></i>
+									<span class="tips" data-toggle="modal" data-target="#myModal">查看投放明细</span>
+							</span>
+						</td>
+						<td rowspan="2">蓄客量：7830组</td>
+						<td>线上留电：400组</td>
+						<td>搜索引擎展示:200次</td>
+						<td>关键词投放：458个</td>
+						<td>2017/02/25<i class="mr5 ml5">-</i>2017/12/15</td>
+					</tr>
+					<tr>
+						<td>线上留电：400组</td>
+						<td>搜索引擎展示:200次</td>
+						<td>关键词投放：458个</td>
+						<td>2017/02/25<i class="mr5 ml5">-</i>2017/12/15</td>
+					</tr>
+					<tr>
+						<td rowspan="2">
+							<span class="ellipsis dib w140 fl" title="中德英伦联邦中德英伦联邦中德英伦联邦中德英伦联邦">中德英伦联邦中德英伦联邦中德英伦联邦中德英伦联邦</span>
+							<span class="hover-more dib vm p-rel">
+									<i class="icon icon-table_more"></i>
+									<span class="tips" data-toggle="modal" data-target="#myModal">查看投放明细</span>
+							</span>
+						</td>
+						<td rowspan="2">蓄客量：7830组</td>
+						<td>线上留电：400组</td>
+						<td>搜索引擎展示:200次</td>
+						<td>关键词投放：458个</td>
+						<td>2017/02/25<i class="mr5 ml5">-</i>2017/12/15</td>
+					</tr>
+					<tr>
+						<td>线上留电：400组</td>
+						<td>搜索引擎展示:200次</td>
+						<td>关键词投放：458个</td>
+						<td>2017/02/25<i class="mr5 ml5">-</i>2017/12/15</td>
+					</tr>
+					<tr>
+						<td rowspan="2">
+							<span class="ellipsis dib w140 fl" title="中德英伦联邦中德英伦联邦中德英伦联邦中德英伦联邦">中德英伦联邦中德英伦联邦中德英伦联邦中德英伦联邦</span>
+							<span class="hover-more dib vm p-rel">
+									<i class="icon icon-table_more"></i>
+									<span class="tips" data-toggle="modal" data-target="#myModal">查看投放明细</span>
+							</span>
+						</td>
+						<td rowspan="2">蓄客量：7830组</td>
+						<td>线上留电：400组</td>
+						<td>搜索引擎展示:200次</td>
+						<td>关键词投放：458个</td>
+						<td>2017/02/25<i class="mr5 ml5">-</i>2017/12/15</td>
+					</tr>
+					<tr>
+						<td>线上留电：400组</td>
+						<td>搜索引擎展示:200次</td>
+						<td>关键词投放：458个</td>
+						<td>2017/02/25<i class="mr5 ml5">-</i>2017/12/15</td>
+					</tr>
+					<tr>
+						<td rowspan="2">
+							<span class="ellipsis dib w140 fl" title="中德英伦联邦中德英伦联邦中德英伦联邦中德英伦联邦">中德英伦联邦中德英伦联邦中德英伦联邦中德英伦联邦</span>
+							<span class="hover-more dib vm p-rel">
+									<i class="icon icon-table_more"></i>
+									<span class="tips" data-toggle="modal" data-target="#myModal">查看投放明细</span>
+							</span>
+						</td>
+						<td rowspan="2">蓄客量：7830组</td>
+						<td>线上留电：400组</td>
+						<td>搜索引擎展示:200次</td>
+						<td>关键词投放：458个</td>
+						<td>2017/02/25<i class="mr5 ml5">-</i>2017/12/15</td>
+					</tr>
+					<tr>
+						<td>线上留电：400组</td>
+						<td>搜索引擎展示:200次</td>
+						<td>关键词投放：458个</td>
+						<td>2017/02/25<i class="mr5 ml5">-</i>2017/12/15</td>
+					</tr>
+					<tr>
+						<td rowspan="2">
+							<span class="ellipsis dib w140 fl" title="中德英伦联邦中德英伦联邦中德英伦联邦中德英伦联邦">中德英伦联邦中德英伦联邦中德英伦联邦中德英伦联邦</span>
+							<span class="hover-more dib vm p-rel">
+									<i class="icon icon-table_more"></i>
+									<span class="tips" data-toggle="modal" data-target="#myModal">查看投放明细</span>
+							</span>
+						</td>
+						<td rowspan="2">蓄客量：7830组</td>
+						<td>线上留电：400组</td>
+						<td>搜索引擎展示:200次</td>
+						<td>关键词投放：458个</td>
+						<td>2017/02/25<i class="mr5 ml5">-</i>2017/12/15</td>
+					</tr>
+					<tr>
+						<td>线上留电：400组</td>
+						<td>搜索引擎展示:200次</td>
+						<td>关键词投放：458个</td>
+						<td>2017/02/25<i class="mr5 ml5">-</i>2017/12/15</td>
+					</tr>
+					<tr>
+						<td rowspan="2">
+							<span class="ellipsis dib w140 fl" title="中德英伦联邦中德英伦联邦中德英伦联邦中德英伦联邦">中德英伦联邦中德英伦联邦中德英伦联邦中德英伦联邦</span>
+							<span class="hover-more dib vm p-rel">
+									<i class="icon icon-table_more"></i>
+									<span class="tips" data-toggle="modal" data-target="#myModal">查看投放明细</span>
+							</span>
+						</td>
+						<td rowspan="2">蓄客量：7830组</td>
+						<td>线上留电：400组</td>
+						<td>搜索引擎展示:200次</td>
+						<td>关键词投放：458个</td>
+						<td>2017/02/25<i class="mr5 ml5">-</i>2017/12/15</td>
+					</tr>
+					<tr>
+						<td>线上留电：400组</td>
+						<td>搜索引擎展示:200次</td>
+						<td>关键词投放：458个</td>
+						<td>2017/02/25<i class="mr5 ml5">-</i>2017/12/15</td>
+					</tr>
+					<tr>
+						<td rowspan="2">
+							<span class="ellipsis dib w140 fl" title="中德英伦联邦中德英伦联邦中德英伦联邦中德英伦联邦">中德英伦联邦中德英伦联邦中德英伦联邦中德英伦联邦</span>
+							<span class="hover-more dib vm p-rel">
+									<i class="icon icon-table_more"></i>
+									<span class="tips" data-toggle="modal" data-target="#myModal">查看投放明细</span>
+							</span>
+						</td>
+						<td rowspan="2">蓄客量：7830组</td>
+						<td>线上留电：400组</td>
+						<td>搜索引擎展示:200次</td>
+						<td>关键词投放：458个</td>
+						<td>2017/02/25<i class="mr5 ml5">-</i>2017/12/15</td>
+					</tr>
+					<tr>
+						<td>线上留电：400组</td>
+						<td>搜索引擎展示:200次</td>
+						<td>关键词投放：458个</td>
+						<td>2017/02/25<i class="mr5 ml5">-</i>2017/12/15</td>
+					</tr>
+					<tr>
+						<td rowspan="2">
+							<span class="ellipsis dib w140 fl" title="中德英伦联邦中德英伦联邦中德英伦联邦中德英伦联邦">中德英伦联邦中德英伦联邦中德英伦联邦中德英伦联邦</span>
+							<span class="hover-more dib vm p-rel">
+									<i class="icon icon-table_more"></i>
+									<span class="tips" data-toggle="modal" data-target="#myModal">查看投放明细</span>
+							</span>
+						</td>
+						<td rowspan="2">蓄客量：7830组</td>
+						<td>线上留电：400组</td>
+						<td>搜索引擎展示:200次</td>
+						<td>关键词投放：458个</td>
+						<td>2017/02/25<i class="mr5 ml5">-</i>2017/12/15</td>
+					</tr>
+					<tr>
+						<td>线上留电：400组</td>
+						<td>搜索引擎展示:200次</td>
+						<td>关键词投放：458个</td>
+						<td>2017/02/25<i class="mr5 ml5">-</i>2017/12/15</td>
+					</tr>
+					
+				</table>
+			</div>
+			<div class="pageSize clearfix lh30 pt20 pb40">
+				<span class="all-count">共<i class="mr5 ml5">58</i>条</span>
+				<nav aria-label="Page navigation " class="fr h30">
+					<ul class="pagination mb0 mt0">
+						<li>
+							<a href="#" aria-label="Previous">
+								<span aria-hidden="true"><</span>
+							</a>
+						</li>
+						<li class="active">
+							<a href="#">1</a>
+						</li>
+						<li>
+							<a href="#">2</a>
+						</li>
+						<li>
+							<a href="#">3</a>
+						</li>
+						<li>
+							<a href="#">4</a>
+						</li>
+						<li>
+							<a href="#">5</a>
+						</li>
+						<li>
+							<a href="#" aria-label="Next">
+								<span aria-hidden="true">></span>
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</form>
+	</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+				<h4 class="modal-title" id="myModalLabel">投放明细</h4>
+			</div>
+			<div class="modal-body pb0 pt0" style="max-height: 430px; overflow-y: auto;">
+				<table class="table modal-table">
+					<caption>中德英伦联邦</caption>
+					<thead>
+						<tr class="text-info">
+							<th>日期</th>
+							<th>推广单元</th>
+							<th>关键词</th>
+							<th>展示次数</th>
+							<th>点击次数</th>
+							<th>点击率</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>2017/08/23</td>
+							<td>中德英伦-品牌</td>
+							<td>中德</td>
+							<td>20</td>
+							<td>20</td>
+							<td>20%</td>
+						</tr>
+						<tr>
+							<td>2017/08/23</td>
+							<td>中德英伦-品牌</td>
+							<td>中德</td>
+							<td>20</td>
+							<td>20</td>
+							<td>20%</td>
+						</tr>
+						<tr>
+							<td>2017/08/23</td>
+							<td>中德英伦-品牌</td>
+							<td>中德</td>
+							<td>20</td>
+							<td>20</td>
+							<td>20%</td>
+						</tr>
+						<tr>
+							<td>2017/08/23</td>
+							<td>中德英伦-品牌</td>
+							<td>中德</td>
+							<td>20</td>
+							<td>20</td>
+							<td>20%</td>
+						</tr>
+						<tr>
+							<td>2017/08/23</td>
+							<td>中德英伦-品牌</td>
+							<td>中德</td>
+							<td>20</td>
+							<td>20</td>
+							<td>20%</td>
+						</tr>
+						<tr>
+							<td>2017/08/23</td>
+							<td>中德英伦-品牌</td>
+							<td>中德</td>
+							<td>20</td>
+							<td>20</td>
+							<td>20%</td>
+						</tr>
+						<tr>
+							<td>2017/08/23</td>
+							<td>中德英伦-品牌</td>
+							<td>中德</td>
+							<td>20</td>
+							<td>20</td>
+							<td>20%</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer pt0">
+				<button type="button" class="btn btn-primary w120">确定</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal -->
+</body>
+<script src="../dist/js/jquery.min.js" type="text/javascript"></script>
+<script src="../dist/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="../dist/js/moment.js" type="text/javascript"></script>
+<script src="../dist/js/daterangepicker.js" type="text/javascript"></script>
+<script src="../dist/js/base.js" type="text/javascript"></script>
+<script type="text/javascript">
+	//切换推广页面的时间选项--今天 =昨天- 近七天
+	$(".select-lately-time span").click(function() {
+		$(".select-lately-time .today").css("border-color", "#c0cdd8");
+		$(".select-lately-time .lately-day7").css("border-color", "#c0cdd8");
+		var isHas = $(this).hasClass("yesterday");
+		$(this).addClass("active").siblings("span").removeClass("active");
+		if(isHas) {
+			$(this).next().css("border-left-color", "transparent").siblings(".today").css("border-right-color", "transparent");
+		} else {
+			$(this).css("border-color", "#108ee9");
+		}
+	});
+	//双日历
+	App.calendar($("#double_calendar"));
+	//单日历
+	App.calendar($("#single_calendar"),true);
+</script>
+</html>

@@ -1,0 +1,52 @@
+/*加载效果*/
+.loading_warp {
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background-color: transparent;
+	z-index: 999;
+}
+
+.loading-content {
+	width: 130px;
+	height: 90px;
+	border-radius: 7px;
+	background-color: rgba(0, 0, 0, 0.5);
+	text-align: center;
+	line-height: 90px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-top: -40px;
+	margin-left: -60px;
+}
+
+.loading-img {
+	animation: loading 2s both infinite linear;
+	-webkit-animation: loading 2s both infinite linear;
+}
+
+@keyframes loading {
+	from {
+		transform-origin: center;
+		transform: rotate( 0deg);
+	}
+	to {
+		transform-origin: center;
+		transform: rotate(-360deg);
+	}
+}
+
+@-webkit-keyframes loading {
+	from {
+		-webkit-transform-origin: center;
+		-webkit-transform: rotate( 0deg);
+	}
+	to {
+		-webkit-transform-origin: center;
+		-webkit-transform: rotate(-360deg);
+		/*-360deg逆时针 360deg顺时针*/
+	}
+}

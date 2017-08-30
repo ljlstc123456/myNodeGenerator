@@ -1,0 +1,285 @@
+<%- include("../include/header") %>
+<link rel="stylesheet" type="text/css" href="/css/jquery.pagewalkthrough.css" />
+<style type="text/css">
+    .form-content .table {table-layout: fixed;}
+    .form-content .table tr {width: 100%;}
+    .form-content .table > tbody > tr > th {min-width: 16.666%;}
+    .table > thead > tr > th {border-bottom: none;}
+    .form-content .table tr:first-child {background: none;}
+    .form-content .table thead tr:first-child {background: #eff7f5; height: auto;}
+    .form-content .table tbody tr:first-child td {border-top: none;}
+    .form-content .table > tbody > tr:nth-child(2) td {border-top: 1px solid #efe8ef;}
+</style>
+<body>
+<div class="container-fluid top" id="module2">
+    <div class="pb20"><b class="ft20">漏斗蓄客</b></div>
+    <div class="form-content">
+        <div class="form-group pl12 pt15  top-form clearfix mb0">
+            <div class="dib p-rel search ">
+                <input type="text" class="form-control w190 h30" placeholder="查询客户姓名或手机号" v-model="nameOrMobile" @keyup.enter="searchFun(1)"/>
+                <a href="javascript:;" class=""><i class="icon icon-table_search input-icon" @click="searchFun(1)"></i></a>
+            </div>
+            <div class="dib p-rel time ">
+                <input type="text" readonly name="double_calendar" id="double_calendar" class="form-control w200 h30" placeholder="开始时间 - 结束时间"/>
+                <a href="javascript:;"><i class="icon icon-table_calendar input-icon" @click="searchFun(1)"></i></a>
+            </div>
+            <div class="dib p-rel search">
+                <input type="text" class="form-control w190 h30" placeholder="查询楼盘" v-model="buildingName" @keyup.enter="searchFun(1)"/>
+                <a href="javascript:;"><i class="icon icon-table_search input-icon" @click="searchFun(1)"></i></a>
+            </div>
+            <div class="dib p-rel search">
+                <input type="text" class="form-control w190 h30" placeholder="查询关键字" v-model="keywords" @keyup.enter="searchFun(1)"/>
+                <a href="javascript:;"><i class="icon icon-table_search input-icon" @click="searchFun(1)"></i></a>
+            </div>
+            <a href="javascript:;" class="btn btn-primary w80 fr mr30" @click="exportFun">导出</a>
+        </div>
+        <div class="table-container">
+            <table class="table table-hover mb0 min-1200">
+                <thead>
+                <tr>
+                    <th>客户</th>
+                    <th>报名时间</th>
+                    <th>来源楼盘</th>
+                    <th class="choose-type">
+                        <span>来源渠道</span>
+                        <span class="ml5 dib choose-warp p-rel">
+                        <i class="icon icon-table_icon"></i>
+                        <ul class="choose-list">
+                          <li @click="searchFun(1)">全部</li>
+                          <li class="ellipsis" v-for="item in data1.channelList" v-text="item.desc" @click="filterChannel(item.name)"></li>
+                        </ul>
+                        </span>
+                    </th>
+                    <th class="choose-type">
+                        <span>搜索引擎</span>
+                        <span class="ml5 dib choose-warp p-rel">
+                        <i class="icon icon-table_icon"></i>
+                        <ul class="choose-list">
+                          <li @click="searchFun(1)">全部</li>
+                          <li class="ellipsis" v-for="item in data1.engineList" v-text="item.desc" @click="filterEngine(item.name)"></li>
+                        </ul>
+                        </span>
+                    </th>
+                    <th>关键字</th>
+                </tr>
+                </thead>
+                <tbody v-if="data2.val.length > 0">
+                <tr v-for="item in data2.val">
+                    <td>
+                        <span v-text="item.customerName"></span><br>
+                        <span v-text="item.mobile"></span>
+                    </td>
+                    <td v-text="item.enrollTime"></td>
+                    <td class="ellipsis" v-text="item.buildingName"></td>
+                    <td v-text="item.enrollChannel"></td>
+                    <td v-text="item.searchEngine"></td>
+                    <td v-text="item.keywords"></td>
+                </tr>
+                </tbody>
+                <tbody v-else>
+                <tr>
+                    <td colspan="6" class="text-center h80">没有数据！</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="pageSize clearfix lh30 pt20 pb40">
+            <span class="all-count">共<i class="mr5 ml5" v-text="data2.totalCount"></i>条</span>
+            <nav aria-label="Page navigation " class="fr h30">
+                <ul class="pagination mb0 mt0">
+                    <li @click="page_change(data2.currentPage-1)"  v-bind:class="{ disabled: data2.currentPage==1}">
+                        <a href="javascript:;" aria-label="Previous " >
+                            <span aria-hidden="true"><</span>
+                        </a>
+                    </li>
+                    <template v-for=" n in pageRang.end">
+                        <li @click="page_change(n)" v-bind:class="{ active: n==data2.currentPage }" v-if='n>=pageRang.start' >
+                            <a href="javascript:;" >{{n}}</a>
+                        </li>
+                    </template>
+                    <li @click="page_change(data2.currentPage+1)" v-bind:class="{ disabled: data2.currentPage==data2.pageCount}">
+                        <a href="javascript:;" aria-label="Next">
+                            <span aria-hidden="true">></span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+<div id="walkthrough-content" class="dn">
+    <div id="walkthrough-1" >
+        <p class="p-rel left50 ml50">点击“放大镜”图标,或者按下回车键，可以进行搜索</p>
+    </div>
+    <div id="walkthrough-2">
+        <p>选中日期，自动搜索</p>
+    </div>
+
+    <div id="walkthrough-3">
+        <p class="pr50">导出当前搜索结果到excel</p>
+    </div>
+</div>
+
+</body>
+<%- include("../include/footer") %>
+<script src="/js/moment.js"></script>
+<script src="/js/daterangepicker.js"></script>
+<script src="/js/jquery.pagewalkthrough.min.js"></script>
+<script type="text/javascript">
+  $(function(){
+    $('body').pagewalkthrough({
+        name: 'introduction',
+        steps: [{
+            wrapper: '.top-form>div:eq(0)',
+            popup: {
+                content: '#walkthrough-1',
+                type: 'tooltip',
+                position: 'bottom'
+            }
+        }, {
+            wrapper: '.top-form>div:eq(1)',
+            popup: {
+                content: '#walkthrough-2',
+                type: 'tooltip',
+                position: 'bottom'
+            }
+        }, {
+            wrapper: '.top-form>a',
+            popup: {
+                content: '#walkthrough-3',
+                type: 'tooltip',
+                position: 'left'
+            }
+        }]
+    });
+
+    // Show the tour
+    var tourSession=localStorage.getItem("tourSession");
+    if(!tourSession){
+      localStorage.setItem("tourSession",true);
+      setTimeout(function(){$('body').pagewalkthrough('show')},200) ;
+    }
+  }) ;
+  (function () {
+    var getData = JSON.parse('<%- JSON.stringify(data) %>');
+    var data1 = getData.data1.data;
+    var data2 = getData.data2.data;
+
+    var vue = new Vue({
+      el: '#module2',
+      data: {
+        data1: data1,
+        data2: data2,
+        pageRang: App.getPageHtml(data2.currentPage, data2.pageCount),
+        nameOrMobile: '',
+        buildingName: '',
+        keywords: '',
+        enrollChannel: '',
+        searchEngine: '',
+        getDate:{
+          start: "",
+          end: ""
+        }
+      },
+      created: function () {
+        var that=this;
+        $(document).ready(function(){
+          App.calendar($("#double_calendar"));
+          $("#double_calendar").on('apply.daterangepicker', function(ev, picker) {
+            vue.getDate.start=picker.startDate.format('YYYY-MM-DD HH:mm:ss');
+            vue.getDate.end=picker.endDate.format('YYYY-MM-DD HH:mm:ss');
+            vue.chooseDate = vue.getDate.start + ' - ' + vue.getDate.end;
+            vue.searchFun(1);
+          });
+
+          $("#double_calendar").on('cancel.daterangepicker', function(ev, picker) {
+            $(this).val('');
+            vue.getDate.start='';
+            vue.getDate.end='';
+            vue.chooseDate = '';
+            vue.searchFun(1);
+          });
+        })
+      },
+      compiled: function () {
+      },
+      watch: {
+        chooseDate:function(val,oldval){
+        }
+      },
+      methods: {
+        getPage:function(){
+          this.pageRang=App.getPageHtml(this.data2.currentPage, this.data2.pageCount);
+        },
+        searchFun: function (currentPage, filter, val, flag) {
+          var _this = this;
+          if(flag) {
+            if(filter === 'enrollChannel') {
+              this.enrollChannel = val;
+            }
+            if(filter === 'searchEngine') {
+              this.searchEngine = val;
+            }
+          }else {
+            this.enrollChannel = '';
+            this.searchEngine = '';
+          }
+          $.ajax({
+            type: 'get',
+            url: "/api/member/member/list",
+            data: {
+              customerName: this.nameOrMobile,  //用户名
+              mobile: this.nameOrMobile,  //手机号
+              buildingName: this.buildingName,  //来源楼盘
+              keywords: this.keywords,  //关键字
+              currentPage: currentPage,  //当前页数
+              enrollChannel: this.enrollChannel,
+              searchEngine: this.searchEngine,
+              enrollStartTime: this.getDate.start ,  //开始时间
+              enrollEndTime: this.getDate.end   //截止时间
+            },
+            success: function (response) {
+              if (response.result) {
+                var res = response.data;
+                _this.data2 = res;
+                _this.getPage();
+              } else {
+                App.alert(response.msg ,"error")
+              }
+            }
+          })
+        },
+        filterChannel: function (val) {
+          //来源渠道筛选
+          this.searchFun(1, 'enrollChannel', val, true)
+        },
+        filterEngine: function (val) {
+          //搜索引擎筛选
+          this.searchFun(1, 'searchEngine', val, true)
+        },
+        page_change:function(target_page){
+          if(target_page<=0||target_page>this.data2.pageCount){
+            return ;
+          }
+          this.searchFun(target_page, null, null, true);
+        },
+        exportFun: function () {
+          var params = {
+            buildingName: this.buildingName,
+            customerName: this.nameOrMobile,
+            mobile: this.nameOrMobile,
+            enrollChannel: this.enrollChannel,
+            searchEngine: this.searchEngine,
+            keywords: this.keywords,
+            enrollStartTime: this.getDate.start,  //开始时间
+            enrollEndTime: this.getDate.end  //截止时间
+          };
+          var str = $.param(params);
+          window.location.href = '/api/member/member/export?' + str
+        }
+      }
+    })
+  })();
+</script>
+  
+

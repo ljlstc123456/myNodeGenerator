@@ -1,0 +1,37 @@
+1.新项目发布，一条命令
+npm install
+ps：根目录下不能有package-lock.json,有则删除之。上面命令执行完成之后，根目录下会存在node_modules，这个就是我们项目需要的开发包。类似于java的jar包，很重要。
+
+
+2.迭代项目（根目录下已经有node_modules文件夹），可能会导入新的包
+
+版本号1.1.0:npm install xxx --save-dev
+
+
+
+项目启动命令：
+pm2 start ./bin/naryouke-online.js -o ./log/out.log -e ./log/error.log//线上环境
+pm2 start ./bin/naryouke-test.js -o ./log/out.log -e ./log/error.log//测试环境
+pm2 start ./bin/naryouke-dev.js -o ./log/out.log -e ./log/error.log//开发环境
+
+调试
+set DEBUG = express:* & node ./bin/naryouke-test.js
+
+chrome-devtools://devtools/bundled/inspector.html?experiments=true&v8only=true&ws=
+
+配置接口地址：
+需要config.js中resultApi配置请求数据的接口地址
+
+日志路径在根目录下，已经进行日期分割。运维不用管理
+log
+
+
+
+
+pm2常用命令
+npm install pm2 -g    #全局安装pm2
+pm2 start bin/www     #启动服务器
+pm2 list              #查看运行状态
+pm2 logs              #查看日志
+pm2 restart www       #重启应用
+pm2 stop www          #停止应用

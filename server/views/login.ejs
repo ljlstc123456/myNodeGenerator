@@ -1,0 +1,80 @@
+<%- include("./include/header") %>
+<link rel="stylesheet" type="text/css" href="/css/login.css"/>
+<body>
+  <header class="contain mauto logo-img"><a href="javascript:void(0)"><img src="/img/logo.png"></a></header>
+  <div class="main">
+    <div class="login-warp contain mauto clearfix">
+      <form action="/login/action" id="loginForm" method="post" target="_top">
+      <div class="login-box text-4d">
+        <div class="ft16 mb20">Login 帐号登录</div>
+        <label for="userName" class="mb14">
+          <!--禁用浏览器自动记住密码的补丁-->
+          <input type="text" class="p-abs tran top0 w10">
+
+          <span class="icon icon-login_user"></span>
+          <input type="text" placeholder="手机号或者邮箱" @click="this.errorMsg = ''" class="form-control h40 lh40 p0 pl40 wc" id="userName" name="mobile" v-model="userName">
+        </label>
+        <label for="loginPassword">
+          <!--禁用浏览器自动记住密码的补丁-->
+          <input type="password" placeholder="" class="p-abs top0 tran w10">
+
+          <span class="icon icon-login_password"></span>
+          <input type="hidden" placeholder="密码" id="loginPassword" name="password" v-model="md5password">
+
+          <input type="password" placeholder="密码" class="form-control h40 lh40 p0 pl40 wc" id="loginPassword" v-model="loginPassword" @keyup.enter="submit()" @click="this.errorMsg = ''">
+        </label>
+        <div class="login-tips"><span class="dib">{{errorMsg}}</span></div>
+        <a href="javascript:void(0)" class="btn btn-block btn-primary h40 lh40" v-on:click="submit">登录</a>
+      </div>
+      </form>
+    </div>
+
+
+  </div>
+  <div class="copyright text-c">
+    <p class="mt15 mb8"><a href="javascript:void(0)">关于我们</a> | <a href="javascript:void(0)">联系我们</a></p>
+    <p>Copyright &copy; 2017 初唐科技 版权所有 成都初唐网络科技股份有限公司 蜀 ICP 备 12012405 号</p>
+  </div>
+</body>
+<%- include("./include/footer") %>
+<script type="text/javascript">
+(function(){
+    new Vue({
+        el: '#loginForm',
+        data: {userName:'',loginPassword:'',md5password:'',errorMsg:"<%=msg%>"},
+        created: function () {
+           
+        },
+        compiled:function(){
+          //$(this.$el).removeClass('hidden') ;
+        },
+        watch: {
+            'loginPassword': function (val, oldVal) {
+                this.md5password = this.loginPassword ;
+            }
+        },
+        methods: {
+            submit: function () {
+              var name = this.userName,
+              password = this.loginPassword,
+              mailReg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+              phoneReg = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/,
+              passwordReg = /^.{6,20}$/;
+              if (name.length === 0 || password.length === 0) {
+                  this.errorMsg = '帐户名或密码不能为空';
+                  return false;
+              }else if(!(mailReg.test(name) || phoneReg.test(name)) || !passwordReg.test(password)){
+                  this.errorMsg = '帐户名或密码错误';
+                  return false;
+              }else {
+                  this.errorMsg = '';
+                  //alert('登录操作')
+                  this.$el.submit() ;
+              }
+            }
+        }
+    })
+})() ;
+</script>
+
+

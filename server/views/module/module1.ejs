@@ -1,0 +1,483 @@
+<%- include("../include/header") %>
+<style type="text/css">
+    .change_password {
+        background-color: transparent;
+    }
+    
+    input[id^='file_input'] {
+        position: fixed;
+        left: 5000%;
+    }
+    
+    .to_lead {
+        position: fixed;
+        width: 150px;
+        left: 50%;
+        margin-left: -75px;
+        top: 30px;
+    }
+    
+    .to_lead .alert {
+        display: none;
+    }
+    .add-btn:hover,
+    .add-btn:active,
+    .add-btn:focus {
+    	color: #666;
+    }
+    
+    .search-select {
+    	height: 30px;
+    	border: 1px solid #c0cdd8;
+    	padding-left: 10px;
+    	position: relative;
+    	margin-bottom: 15px;
+    }
+    
+    .search-select.active {
+    	border-color: #108ee9;
+    }
+    
+    .search-select:after {
+    	content: "";
+    	z-index: 10;
+    	position: absolute;
+    	display: inline-block;
+    	width: 6px;
+    	height: 6px;
+    	top: 10px;
+    	right: 10px;
+    	font-size: 12px;
+    	border-top: 1px solid #999;
+    	border-left: 1px solid #999;
+    	background-color: transparent;
+    	-webkit-transform: rotate(225deg);
+    	-moz-transform: rotate(225deg);
+    	transform: rotate(225deg);
+    }
+    
+    .search-select .s-sel {
+    	position: absolute;
+    	top: 0;
+    	right: 0;
+    	height: 100%;
+    	width: 28px;
+    	cursor: pointer;
+    	background-color: #fff;
+    }
+    
+    .search-select.active ul {
+    	display: inline-block;
+    	border-top-color: #108ee9;
+    }
+    
+    .search-select ul {
+    	display: none;
+    	position: absolute;
+    	left: -1px;
+    	top: 35px;
+    	vertical-align: middle;
+    	width: 100%;
+    	max-height: 200px;
+    	overflow-y: auto;
+    	margin-top: -5px;
+    	border: 1px solid #c3c8c7;
+    	border-radius: 2px;
+    	border-top-left-radius: 0;
+    	border-top-right-radius: 0;
+    	list-style: none;
+    	z-index: 100;
+    	background-color: #fff;
+    	word-wrap: break-word;
+    	-webkit-box-sizing: content-box;
+    	-moz-box-sizing: content-box;
+    	box-sizing: content-box;
+    }
+    
+    .search-select ul li {
+    	width: 100%;
+    	height: 35px;
+    	line-height: 35px;
+    }
+    
+    .search-select ul a:hover {
+    	background-color: #108ee9;
+    	color: #fff;
+    }
+    
+    .search-select ul li a {
+    	display: inline-block;
+    	width: 100%;
+    	height: 100%;
+    	line-height: 35px;
+    	text-indent: 5px;
+    	text-decoration: none;
+    	font-size: 14px;
+    	font-weight: 500;
+    	color: #454a51;
+    	overflow: hidden;
+    	text-overflow: ellipsis;
+    	white-space: nowrap;
+    	display: block;
+    }
+    
+    .search-select ul li.null-msg {
+    	display: none;
+    	padding: 0 10px;
+    	box-sizing: border-box;
+    	color: #666;
+    }
+    
+    .search-select.active ul {
+    	display: block;
+    }
+    
+    .search-select ul li.null-msg.active {
+    	display: block;
+    }
+    
+    .add-btn {
+    	border: 1px dashed #808080;
+    	color: #B5B5B5;
+    	display: inline-block;
+    	text-align: center;
+    	line-height: 26px;
+    	vertical-align: middle;
+    }
+</style>
+<body>
+    <div class="container-fluid top" >
+        <div class="pb20"><b class="ft20">哪儿有客配置</b></div>
+        <div class="form-content">
+            <div class="form-group pl12 pt15 pb15 top-form clearfix mb0">
+                <span class="fr">
+                    <form action="" class="p-rel">
+                        <a href="javascript:void(0);" class="btn btn-primary w120  mr10 choose_file_1">导入效果分析表</a>
+                        <a href="javascript:void(0);" class="btn btn-primary w120  mr30 choose_file_2">导入投放明细表</a>
+                        <input class="p-abs left0 w120 top0 h30 tran" type="file" name="file_input1" id="file_input1" value="" />
+                        <input class="p-abs w120 top0 h30 tran" style="left:130px;" type="file" name="file_input2" id="file_input2" value="" />
+                    </form>
+                </span>
+            </div>
+            <div id="userlist">
+                <div class="table-container">
+                    <table class="table table-hover mb0">
+                        <tr>
+                            <th style="min-width:80px;">手机号</th>
+                            <th style="min-width:120px;">邮箱地址</th>
+                            <th style="min-width:80px;">身份</th>
+                            <th style="min-width:80px;">密码</th>
+                            <th style="min-width:80px;">剩余金额</th>
+                            <th style="min-width:80px;">消耗比例</th>
+                            <th>关联楼盘</th>
+                        </tr>
+                        <tr v-for="(item,i) in data.val" v-clock>
+                            <td>{{item.userMobile}}</td>
+                            <td>{{item.userMail}}</td>
+                            <td>{{item.userType}}</td>
+                            <td><input type="text" @keyup.enter="save(i)" v-model="item.userPwd" class="change_password form-control w100 h30" data-toggle="tooltip" data-placement="bottom" title="按回车键保存"/></td>
+                            <td><input type="text" @keyup.enter="save(i)" v-model="item.remainBalance" class="change_password form-control w100 h30" data-toggle="tooltip" data-placement="bottom" title="按回车键保存"/></td>
+                            <td><input type="text" @keyup.enter="save(i)" v-model="item.consumeRate" class="change_password form-control w100 h30" data-toggle="tooltip" data-placement="bottom" title="按回车键保存"/></td>
+                            <td><span v-for="item2 in item.buildingList" class="mr5">{{item2.name}}</span><a href="javascript:void(0);" class="btn btn-warning lh20 pl5 pr5 vm ml5" @click="getBuilding(item.id,i)">设置</a></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="pageSize clearfix lh30 pt20 pb40">
+                    <span class="all-count">共<i class="mr5 ml5">{{data.totalCount}}</i>条</span>
+                    <nav aria-label="Page navigation " class="fr h30">
+                        <ul class="pagination mb0 mt0">
+                            <li @click="getList(data.currentPage-1)">
+                                <a href="javascript:;" aria-label="Previous " >
+                                    <span aria-hidden="true"><</span>
+                                </a>
+                            </li>
+                            <template v-for=" n in pageRang.end">
+                                <li @click="getList(n)" v-bind:class="{ active: n==data.currentPage }" v-if='n>=pageRang.start' >
+                                    <a href="javascript:;" >{{n}}</a>
+                                </li>
+                            </template>
+                            <li @click="getList(data.currentPage-0+1)">
+                                <a href="javascript:;" aria-label="Next">
+                                    <span aria-hidden="true">></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--导入提示-->
+    <div class="to_lead lead_error">
+        <div class="alert alert-success mb10 pt10 pb10" role="alert">导入成功！</div>
+        <div class="alert alert-danger pt10 pb10" role="alert">导入失败！</div>
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content" id="guanlian">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+            <h4 class="modal-title" id="myModalLabel">设置关联楼盘</h4>
+          </div>
+          <div class="modal-body pt0" style="max-height: 430px;padding-bottom:100px; overflow-y: auto;">
+            <form class="form-content">
+                <div class="mt15">
+                    <building v-bind:buildingname="item.name" v-bind:index="i" v-bind:id="item.id" v-for="(item,i) in list"></building>
+                    <a class="add-btn w140" href="javascript:void(0);" @click="addBuilding()"> + 添加楼盘</a>
+                </div>
+            </form>
+          </div>
+          <div class="modal-footer pt10">
+            <a href="javascript:void(0);" @click="ok()" class="btn btn-primary w120">确定</a>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+    </div>
+</body>
+<%- include("../include/footer") %>
+<script type="text/javascript">
+    $(function(){
+        
+        
+        //导入效果分析表
+        $("#file_input1").on("change",function(){
+            var data = new FormData();  
+            data.append("file",$(this)[0].files[0]) ;
+
+            $.ajax({  
+                url: '/api/config/importPromotion/importPromotionEffect',  
+                type: 'POST',  
+                data: data,  
+                dataType: 'JSON',  
+                cache: false,  
+                processData: false,  
+                contentType: false  
+            }).done(function(ret){  
+                $("#file_input1").val("") ;
+                var str = ret.msg ;
+                if(ret.errorMsg!=""){
+                    str += ","+ret.errorMsg ;
+                    App.alert("效果分析表"+str,"error",10000) ;
+                }else{
+                    App.alert("效果分析表"+ret.msg) ;
+                }
+            });  
+        });
+      
+
+        //导入投放明细表
+        $("#file_input2").on("change",function(){
+            var data = new FormData();  
+            data.append("file",$(this)[0].files[0]) ;
+            $.ajax({  
+                url: '/api/config/importPromotion/importPromotionDetail',  
+                type: 'POST',  
+                data: data,  
+                dataType: 'JSON',  
+                cache: false,  
+                processData: false,  
+                contentType: false  
+            }).done(function(ret){  
+                $("#file_input2").val("") ;
+                var str = ret.msg ;
+                if(ret.errorMsg!=""){
+                    str += ","+ret.errorMsg ;
+                    App.alert("投放明细表"+str,"error",10000) ;
+                }else{
+                    App.alert("投放明细表"+ret.msg) ;
+                }
+            });  
+        });
+
+
+        var data = JSON.parse('<%- JSON.stringify(data) %>') ;
+        var list = new Vue({
+            el: '#userlist',
+            data: {
+                data:data,
+                pageRang: App.getPageHtml(data.currentPage, data.pageCount)
+            },
+            created: function () {
+               console.log(data.pageCount) ;
+            },
+            compiled:function(){
+              $(this.$el).removeClass('hidden') ;
+            },
+            watch: {
+                
+            },
+            methods: {
+                save: function (i) {
+                    var para = {
+                        consumeRate:this.data.val[i].consumeRate,
+                        number:this.data.val[i].number,
+                        id:this.data.val[i].id,
+                        remainBalance:this.data.val[i].remainBalance,
+                        userPwd:this.data.val[i].userPwd
+                    } ;
+                    if($.trim(para.consumeRate) == ""){
+                        App.alert("消耗比例不能为空","error") ;
+                        return ;
+                    }
+                    if($.trim(para.userPwd) == ""){
+                        App.alert("密码不能为空","error") ;
+                        return ;
+                    }
+                    if($.trim(para.remainBalance) == ""){
+                        App.alert("剩余金额不能为空","error") ;
+                        return ;
+                    }
+
+                    if(!(/^[0-9]+([.]{1}[0-9]+){0,1}$/).test(para.consumeRate)){
+                        App.alert("消耗比例只能是数字","error") ;
+                        return ;
+                    }
+                    if(!(/^[0-9]+([.]{1}[0-9]+){0,1}$/).test(para.remainBalance)){
+                        App.alert("剩余金额只能是数字","error") ;
+                        return ;
+                    }
+                    $.post("/api/sys/sysAdminBuilding/updateSysAdmin",para,function(data){
+                        console.log(data) ;
+                    }) ;
+                },
+                getList:function(index){
+                    var _this = this ;
+                    if(index<=0||index>this.data.pageCount){
+                        return ;
+                    }
+                    $.post("/api/sys/sysAdminBuilding/listSysAdmin",{"currentPage":index},function(data){
+                        _this.data = data.data;
+                        _this.pageRang = App.getPageHtml(data.data.currentPage, data.data.pageCount) ;
+                    }) ;
+                },
+                getBuilding:function(id,i){
+                    $.post("/api/sys/sysAdminBuilding/listBuilding",{sysAdminId:id},function(data){
+                        //console.log(data) ;
+                        //$("#myModal").modal("show") ;
+                        dialog.list = data.data ;
+                        dialog.index = i ;
+                        dialog.sysAdminId = id ;
+                        $("#myModal").modal("show") ;
+                    }) ;
+                }
+            }
+        }) ;
+
+        Vue.component('building', {
+          template: '<div class="dib search-select w200 mr10" v-bind:class="{ active: searchKey!=\'\' }">'+
+                        '<input @input="search()" @blur="reset()" type="text" class="w130 hc " v-model="buildingname" placeholder="输入楼盘名称" />'+
+                        '<span class="s-sel"></span>'+
+                        '<ul class="none h100" data-val="2">'+
+                            '<li v-for="item in buildingList">'+
+                                '<a href="javascript:void(0);" @click="select(item.name,item.id)" >{{item.name}}</a>'+
+                            '</li>'+
+                            '<li class="null-msg active" v-if="buildingList.length <= 0">没有匹配到</li>'+
+                        '</ul>'+
+                        '<a href="javascript:;" @click="deleteBuilding()" class="btn btn-danger lh20 pl5 pr5">×</a>'+
+                    '</div>',
+          data: function () {
+            return {
+              searchKey: "",
+              buildingInfo:{
+                id:"",
+                name:""
+              },
+              buildingList:[],
+              oldbuildingname:""
+            }
+          },
+          props: ['id',"buildingname",'index'],
+          created:function(){
+            this.oldbuildingname = this.buildingname ;
+          },
+          methods: {
+            search: function() {
+              var _this = this ;
+              if(this.buildingname == ""){
+                return ;
+              }
+              this.searchKey = this.buildingname ;
+
+              $.post("/api/sys/sysAdminBuilding/searchBuilding",{buildingName:this.buildingname},function(data){
+                _this.buildingList = data.data;
+              }) ;
+              
+            },
+            reset:function(){
+                if(this.buildingList.length<=0){
+                     this.buildingname = this.oldbuildingname ;
+                     this.searchKey = "";
+                }
+            },
+            select:function(name,id){
+                var _this = this ;
+                $.post("/api/sys/sysAdminBuilding/addBuilding",{buildingId:id,sysAdminId:dialog.sysAdminId},function(data){
+                    if(data.result){
+                        App.alert("保存成功") ;
+                        _this.buildingname = name ;
+                        _this.id = id ;
+                        _this.searchKey = "" ;
+                        _this.oldbuildingname = _this.buildingname ;
+                        dialog.list[_this.index] = {id:id,name:name} ;
+                    }else{
+                        App.alert(data.msg,"error") ;
+                        _this.searchKey = "" ;
+                    }
+                }) ;
+            },
+            deleteBuilding:function(){
+                var id = this.id ;
+                if(id!=0){
+                    $.post("/api/sys/sysAdminBuilding/removeBuilding",{buildingId:id,sysAdminId:dialog.sysAdminId},function(data){
+                        if(data.result){
+                            //App.alert("保存成功") ;
+                        }else{
+                            App.alert(data.msg,"error") ;
+                        }
+                    }) ;
+                }
+                var list = [] ;
+                $.each(dialog.list,function(i,r){
+                    if(r.id != id){
+                        list.push(r) ;
+                    }
+                }) ;
+                console.log(list) ;
+                dialog.list = list ;
+                console.log(dialog.list) ;
+            }
+          },
+        }) ;
+
+        var dialog = new Vue({
+            el: '#guanlian',
+            data: {
+                list:[],
+                index:0,
+                sysAdminId:0
+            },
+            created: function () {
+               console.log(this.val) ;
+            },
+            compiled:function(){
+              
+            },
+            methods: {
+                search: function () {
+                  
+                },
+                addBuilding:function(){
+                    this.list.push({id:0,name:""}) ;
+                },
+                ok:function(){
+                    list.data.val[this.index].buildingList = this.list.length==1?[this.list[0]]:(this.list.length>=2?[this.list[0],this.list[1]]:[]);
+                    $("#myModal").modal("hide") ;
+                }
+            }
+        }) ;
+    }) ;
+</script>

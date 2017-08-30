@@ -1,0 +1,75 @@
+<%- include("./include/header") %>
+<style type="text/css">
+	html,
+	body {
+		height: 100%;
+		overflow: hidden;
+	}
+</style>
+<body>
+  <div class="main">
+    <!--header Start-->
+    <div class="header clearfix ">
+      <a href="/" class="logo fl pl25 lh60"><img src="/img/table_logo.png"/></a>
+      <div class="warp pr25 lh60 text-white">
+        <div class=" h60 left fl">
+          <span class=" fl float-xs-none ml20 mr5"><i class="icon icon-top_money"></i></span>
+          <span class="text-white fl float-xs-none">剩余金额:<b class="money ft24 vm mr5 ml5"><%=user.remainBalance||"--"%></b>元</span>
+        </div>
+        <div class="right fr">
+          <span class="face dib mr5 vm" style="background-image: url(<%=user.avatar||'/img/defaultFaceimg.png'%>);"></span>
+          <span class="username "><%=user.userMobile||user.userMail%></span>
+          <i class="icon icon-top_vip "></i>
+          <a href="/login/out" class="quit-login text-white pl20 ml20">退出</a>
+          
+        </div>
+        <a href="javascript:;"  class="vm fr visible-sm visible-xs pl10 menu-toggler-btn"><img src="/img/menu-toggler.png" alt="" /></a>
+        
+      </div>
+    </div>
+    <ul class="menu-toggler-warp hidden-lg">
+     <%for(var i=0;i<data.length;i++){
+        var item = data[i] ;
+      %>
+      <a href="/module/<%=item.id%>" target="content-frame"><li class="pl25 <%if(i==0){%>active<%}%> <%=menu['module'+item.id]['class']%>"><span class="mr10 "><i class="icon <%=menu['module'+item.id]['icon']%>"></i></span><span><%=item.name%></span></li></a>
+     <%}%>
+    </ul>
+    <!--header End-->
+    <!--main container Start-->
+    <div class="row-fluid main-menu">
+      <!--leftBar 菜单 Start-->
+      <ul class="left-bar mb0 visible-md visible-lg">
+      <%for(var i=0;i<data.length;i++){
+        var item = data[i] ;
+      %>
+      <a href="/module/<%=item.id%>" target="content-frame"><li class="pl25 <%if(i==0){%>active<%}%> <%=menu['module'+item.id]['class']%>"><span class="mr10 hidden-xs"><i class="icon <%=menu['module'+item.id]['icon']%>"></i></span><span><%=item.name%></span></li></a>
+     <%}%>
+
+     
+      </ul>
+      <!--leftBar 菜单 End-->
+      <!--rightBar 内容 Start-->
+      <div class="right-bar">
+        <iframe id="content-frame" name="content-frame" width="100%"  height="900"frameborder="0"  src="/module/<%=data[0].id%>" ></iframe>
+      </div>
+      <!--rightBar 内容 End-->
+    </div>
+    <!--main container End-->
+  </div>
+  
+</body>
+<%- include("./include/footer") %>
+<script type="text/javascript">
+	$(function() {
+		$(".right-bar").find("iframe").attr({
+			height: $(window).height() - 60
+		});
+		$(window).resize(function() {
+			$(".right-bar").find("iframe").attr({
+				height: $(window).height() - 60
+			});
+		});
+	})
+</script>
+  
+

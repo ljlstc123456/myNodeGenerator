@@ -1,0 +1,20 @@
+.icon{background:url(../img/icon.png) no-repeat ; display: inline-block; background-size:342px 24px ; vertical-align: middle;}
+.icon-table_icon{height:16px;width:16px;background-position:0 0;}
+.icon-table_more{height:16px;width:16px;background-position:-16px 0;}
+.icon-table_icon_pre{height:16px;width:16px;background-position:-32px 0;}
+.icon-table_more_pre{height:16px;width:16px;background-position:-48px 0;}
+.icon-top_money{height:16px;width:16px;background-position:-64px 0;}
+.icon-table_calendar_pre{height:18px;width:18px;background-position:-80px 0;}
+.icon-table_calendar{height:18px;width:18px;background-position:-98px 0;}
+.icon-table_search_pre{height:18px;width:18px;background-position:-116px 0;}
+.icon-table_search{height:18px;width:18px;background-position:-134px 0;}
+.icon-menu_icon1_pre{height:20px;width:20px;background-position:-152px 0;}
+.icon-menu_icon1_normal,.icon-module2{height:20px;width:20px;background-position:-172px 0;}
+.icon-menu_icon2_normal{height:20px;width:20px;background-position:-192px 0;}
+.icon-top_vip{height:20px;width:20px;background-position:-212px 0;}
+.icon-menu_icon2_pre{height:20px;width:20px;background-position:-232px 0;}
+.icon-box_close{height:24px;width:24px;background-position:-252px 0;}
+.icon-login_password{height:24px;width:24px;background-position:-276px 0;}
+.icon-login_user{height:24px;width:24px;background-position:-300px 0;}
+.icon-date_left{height:9px;width:9px;background-position:-324px 0;}
+.icon-date_right{height:9px;width:9px;background-position:-333px 0;}

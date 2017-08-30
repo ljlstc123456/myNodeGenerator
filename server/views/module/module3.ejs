@@ -1,0 +1,379 @@
+<%- include("../include/header") %>
+<link rel="stylesheet" type="text/css" href="/css/jquery.pagewalkthrough.css" />
+<style type="text/css">
+    /*模态框（Modal）*/
+    @media (min-width: 992px) { .modal-dialog { width: 800px; } } 
+    .modal-header { background: #eff7f5; }
+    .modal-footer { border-top: none; } 
+    table.modal-table thead>tr>th { border: none; background: #eff7f5; }
+    table.modal-table tbody>tr>td { padding: 15px; border-top: none; border-bottom: 1px solid #ddd; }
+    /*模态框（Modal） End*/
+    .table>tbody+tbody{border: none;}
+    .table>tbody tr td{ border: none; }
+    .table>tbody:first-child{ background-color: #eff7f5; }
+    .table>tbody:first-child tr{ height: auto; }
+    .form-content .table tr{ height: 50px; }
+    .table>tbody tr td{ border-right: 1px solid rgb(239, 232, 239) !important; border-bottom: 1px solid rgb(239, 232, 239) !important; }
+    .table>tbody tr td:last-child{border-right: none !important;}
+    .table>tbody tr:first-child td{ border: none; }
+    .table>tbody+tbody:hover{ background-color: #EBF8FC; }
+    #double_calendar{cursor: pointer;}
+    td{white-space: nowrap;}
+  </style>
+<body>
+	<div class="container-fluid top" id="module3">
+		<div class="pb20"><b class="ft20">推广效果</b></div>
+		<div class="form-content" >
+			<div class="form-group pl12 pt15  top-form clearfix mb0">
+				<div class="clearfix select-lately-time text-center lh30">
+					<span class="today" @click="todayList"  v-bind:class="{today_active: timeTab==1 ,today_tr:timeTab==2}">今日</span>
+					<span class="yesterday" @click="yesterdayList" v-bind:class="{yesterday_active: timeTab==2}">昨日</span>
+					<span class="lately-day7" @click="lately_day"  v-bind:class="{lately_day_active: timeTab==3,lately_tr:timeTab==2}">近七日</span>
+				</div>
+				<div class="dib p-rel time ">
+					<input type="text" readonly name="double_calendar" id="double_calendar" class="form-control w200 h30"  placeholder="开始时间 - 结束时间" /> 
+					<a href="javascript:;"><i class="icon icon-table_calendar input-icon"></i></a>
+				</div>
+				<div class="dib p-rel search">
+					<input type="text" class="form-control w190 h30" placeholder="查询推广楼盘" v-model='postParame.buildingName' @keyup.enter="buildName_search($event,false)"/>
+					<a href="javascript:;"><i class="icon icon-table_search input-icon" @click="buildName_search($event,true)"></i></a>
+				</div>
+			</div>
+			<div class="table-container">
+				<table class="table mb0 tuiguang">
+					<tbody>
+					<tr>
+						<th style="width: 250px;">推广楼盘</th>
+						<th colspan="2" style="min-width:180px;">效果反馈</th>
+						<th style="min-width:150px;">展示</th>
+						<th style="min-width:150px;">投放</th>
+						<th style="min-width:150px;">推广时间段</th>
+					</tr>
+					</tbody>
+					<!--promotionTime-->
+					<template v-for="(items,index) in originalData.data.val">
+					<tbody>
+						<tr>
+							<td rowspan="2">
+								<span class="ellipsis dib w140 fl" title="items.buildingName">{{items.buildingName}}</span>
+								<span class="hover-more dib vm p-rel" @mouseenter="hoverIndex(index)" @mouseleave="hoverLeave">
+										<i class="icon icon-table_more"></i>
+										<span class="tips"  @click="getBuildDetaile(items.buildingId, items.promotionTime)"   v-show="index==curIndex.index " data-toggle="modal" >查看投放明细</span>
+								</span>
+							</td>
+							<td rowspan="2">蓄客量：{{items.totalMemberNum}}组</td>
+							<td>线上留电：{{items.onlineEnrollNum}}组</td>
+							<td>搜索引擎展示：{{items.searchShowNum}}次</td>
+							<td>关键词投放：{{items.keywordNum}}个</td>
+							<td rowspan="2">
+								<span class="dib">{{items.promotionTime | filterTime}}</span> 
+								<span class="ml10 dib">{{items.promotionPeriod }}</span>
+							</td>
+						</tr>
+						<tr>
+							<td>在线咨询：{{items.onlineConsultNum}}组</td>
+							<td>DSP展示：{{items.dspShowNum}}次</td>
+							<td>推广单元：{{items.promotionUnitNum}}个</td>
+						</tr>
+					</tbody>
+					</template>
+					<tr v-show="originalData.data.totalCount==0"><td colspan="6" class="text-center h80">暂无数据！</td></tr>
+				</table>
+			</div>
+			<div class="pageSize clearfix lh30 pt20 pb40">
+				<span class="all-count">共<i class="mr5 ml5">{{originalData.data.totalCount}}</i>条</span>
+				<nav aria-label="Page navigation " class="fr h30" v-show="originalData.data.totalCount!=0">
+					<ul class="pagination mb0 mt0">
+						<li @click="page_change(originalData.data.currentPage-1)"  v-bind:class="{ disabled: originalData.data.currentPage==1}">
+							<a href="javascript:;" aria-label="Previous " >
+								<span aria-hidden="true"><</span>
+							</a>
+						</li>
+						<template v-for=" n in pageRang.end">
+							<li @click="page_change(n)" v-bind:class="{ active: n==originalData.data.currentPage }" v-if='n>=pageRang.start' >
+								<a href="javascript:;" >{{n}}</a>
+							</li>
+						</template>
+						<li @click="page_change(originalData.data.currentPage+1)" v-bind:class="{ disabled: originalData.data.currentPage==originalData.data.pageCount}">
+							<a href="javascript:;" aria-label="Next">
+								<span aria-hidden="true">></span>
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+	                    &times;
+	                </button>
+					<h4 class="modal-title" id="myModalLabel">投放明细</h4>
+				</div>
+				<div class="modal-body pb0 pt0" style="max-height: 430px; overflow-y: auto;">
+					<table class="table modal-table">
+						<caption>{{buildingName}}</caption>
+						<thead>
+							<tr class="text-info">
+								<th>日期</th>
+								<th>推广单元</th>
+								<th>关键词</th>
+								<th>展示次数</th>
+								<th>点击次数</th>
+								<th>点击率</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="items in detailedData">
+								<td>{{items.promotionTime | filterTime}}</td>
+								<td>{{items.promotionUnit}}</td>
+								<td>{{items.keyword}}</td>
+								<td>{{items.showNum}}</td>
+								<td>{{items.clickNum}}</td>
+								<td>{{items.clickRate+'%'}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal -->
+	</div>
+	<div id="walkthrough-content" class="dn">
+		<div id="walkthrough-1">
+			<p>选中日期，自动搜索</p>
+		</div>
+		<div id="walkthrough-2">
+			<p class="p-rel left50 ml50">点击“放大镜”图标,或者按下回车键，可以进行搜索</p>
+		</div>
+	</div>
+</body>
+<%- include("../include/footer") %>
+<script src="/js/moment.js"></script>
+<script src="/js/daterangepicker.js"></script>
+<script src="/js/jquery.pagewalkthrough.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$('body').pagewalkthrough({
+			name: 'introduction',
+			steps: [{
+				wrapper: '#double_calendar',
+				popup: {
+					content: '#walkthrough-1',
+					type: 'tooltip',
+					position: 'bottom'
+				}
+			}, {
+				wrapper: '.form-group.top-form .search input',
+				popup: {
+					content: '#walkthrough-2',
+					type: 'tooltip',
+					position: 'bottom'
+				}
+			}]
+		});
+		// Show the tour
+		var tourSession = localStorage.getItem("tourSession");
+		if(!tourSession) {
+			$('body').pagewalkthrough('show');
+			localStorage.setItem("tourSession", true);
+		}
+	});
+	(function() {
+		//双日历
+		var res = JSON.parse('<%- JSON.stringify(data) %>');
+		console.log(res)
+		var vm_1 = new Vue({
+			el: '#module3',
+			data: {
+				originalData: res,
+				pageRang: App.getPageHtml(res.data.currentPage, res.data.pageCount),
+				//这是ajax的参数
+				postParame: {
+					buildingName: "",
+					currentPage: 1,
+					endTime: "",
+					startTime: ""
+				},
+				curIndex: {
+					index: 0,
+					isFrist: true
+				},
+				getDate: {
+					start: "",
+					end: ""
+				},
+				//上一页和下一页是否可点
+				disabled: {
+					next: false,
+					prev: false
+				},
+				//选择时间tab控制 默认是不active的
+				timeTab: -1
+			},
+			filters: {
+				filterTime: function(value) {
+					return moment(value).format('YYYY-MM-DD');
+				}
+			},
+			created: function() {
+				//console.log("测试");
+				var that = this;
+				$(document).ready(function() {
+					
+					App.calendar($("#double_calendar"));
+					$("#double_calendar").on('apply.daterangepicker', function(ev, picker) {
+						vm_1.getDate.start = picker.startDate.format('YYYY-MM-DD');
+						vm_1.getDate.end = picker.endDate.format('YYYY-MM-DD');
+						that.dateInit = picker.startDate.format('YYYY-MM-DD') + "-" + picker.endDate.format('YYYY-MM-DD');
+						that.getListAjax();
+					});
+					$("#double_calendar").on('cancel.daterangepicker', function(ev, picker) {
+
+						if(vm_1.getDate.start != "" && vm_1.getDate.end != "") {
+							vm_1.getDate.start = "";
+							vm_1.getDate.end = "";
+							that.getListAjax();
+						}
+						$(this).val('');
+
+					});
+				});
+
+			},
+			compiled: function() {
+
+			},
+			watch: {
+
+			},
+			methods: {
+				hoverIndex: function(index) {
+					//console.log(index)
+					this.curIndex.index = index;
+				},
+				hoverLeave: function() {
+					this.curIndex.index = -1;
+				},
+				getPage: function() {
+					this.pageRang = App.getPageHtml(this.originalData.data.currentPage, this.originalData.data.pageCount);
+				},
+				getListAjax: function(currentPage, endTime, startTime) {
+					var that = this;
+					var data = {
+						buildingName: that.postParame.buildingName,
+						currentPage: currentPage || 1,
+						endTime: endTime || that.getDate.end,
+						startTime: startTime || that.getDate.start
+					};
+					//console.log(data)
+					$.ajax({
+						type: "get",
+						url: "/api/promotion/promotion/effectIndex",
+						data: data,
+						async: true,
+						success: function(result) {
+							//console.log(result)
+							that.curIndex.isFrist = false;
+							that.originalData = result;
+							that.getPage();
+						},
+						error: function(error) {
+							//console.log(error);
+						}
+					});
+				},
+				todayList: function() {
+					this.timeTab = 1;
+					var today = moment().format('L');
+					this.getListAjax(1, today, today);
+				},
+				yesterdayList: function() {
+					this.timeTab = 2;
+					var yesterday = moment().subtract(1, 'day').format("YYYY[-]MM[-]DD ");
+					this.getListAjax(1, yesterday, yesterday);
+				},
+				lately_day: function() {
+					this.timeTab = 3;
+					var lately_day = moment().subtract(7, 'days').calendar(),
+						today = moment().format('L');
+					this.getListAjax(1, today, lately_day);
+				},
+				page_change: function(target_page) {
+					if(target_page <= 0 || target_page > this.originalData.data.pageCount) {
+						return;
+					}
+					this.getListAjax(target_page);
+				},
+				buildName_search: function(e, flag) {
+					if(flag) { //表示点击的是搜索的icon
+						this.getListAjax();
+					} else {
+						if(e.keyCode == 13) {
+							this.getListAjax();
+						}
+					}
+
+				},
+				getBuildDetaile: function(id,time) {
+					//给vm_2赋值
+					vm_2.buildingId = id;
+					vm_2.promotionTime=moment(time).format('YYYY-MM-DD');
+					vm_2.getBuildDetaile();
+				}
+			}
+		});
+		//主动调用
+		//摸态框 vue
+		var vm_2 = new Vue({
+			el: '#myModal',
+			data: {
+				buildingName: "",
+				detailedData: []
+			},
+			created: function() {},
+			compiled: function() {},
+			filters: {
+				filterTime: function(value) {
+					return moment(value).format('YYYY-MM-DD');
+				}
+			},
+			watch: {
+
+			},
+			methods: {
+				getBuildDetaile: function() {
+					var that = this;
+					$.ajax({
+						type: "get",
+						url: "/api/promotion/promotion/detailed",
+						data: {
+							promotionTime:that.promotionTime,
+							buildingId: that.buildingId
+						},
+						async: true,
+						success: function(result) {
+							that.detailedData = result.data;
+							if(result.data.length > 0) {
+								that.buildingName = result.data[0].buildingName;
+								$('#myModal').modal('show');
+							} else {
+								App.alert("暂无投放明细！", "error")
+							}
+
+						},
+						error: function(error) {
+							//console.log(error);
+						}
+					});
+				}
+			}
+		})
+
+	})();
+</script>

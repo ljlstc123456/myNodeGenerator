@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SpriteFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CssFileName="../images" ImageName="icon" IsPhone="false" SpriteImgFileType="Png" xmlns="CssSprite">
+  <SpriteList>
+    <Sprite Path="table_icon.png" LocationX="0" LocationY="0" />
+    <Sprite Path="table_more.png" LocationX="16" LocationY="0" />
+    <Sprite Path="table_icon_pre.png" LocationX="32" LocationY="0" />
+    <Sprite Path="table_more_pre.png" LocationX="48" LocationY="0" />
+    <Sprite Path="top_money.png" LocationX="64" LocationY="0" />
+    <Sprite Path="table_calendar_pre.png" LocationX="80" LocationY="0" />
+    <Sprite Path="table_calendar.png" LocationX="98" LocationY="0" />
+    <Sprite Path="table_search_pre.png" LocationX="116" LocationY="0" />
+    <Sprite Path="table_search.png" LocationX="134" LocationY="0" />
+    <Sprite Path="menu_icon1_pre.png" LocationX="152" LocationY="0" />
+    <Sprite Path="menu_icon1_normal.png" LocationX="172" LocationY="0" />
+    <Sprite Path="menu_icon2_normal.png" LocationX="192" LocationY="0" />
+    <Sprite Path="top_vip.png" LocationX="212" LocationY="0" />
+    <Sprite Path="menu_icon2_pre.png" LocationX="232" LocationY="0" />
+    <Sprite Path="box_close.png" LocationX="252" LocationY="0" />
+    <Sprite Path="login_password.png" LocationX="276" LocationY="0" />
+    <Sprite Path="login_user.png" LocationX="300" LocationY="0" />
+    <Sprite Path="date_left.png" LocationX="324" LocationY="0" />
+    <Sprite Path="date_right.png" LocationX="333" LocationY="0" />
+  </SpriteList>
+</SpriteFile>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="utf-8">
+	<title>设置关联楼盘</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="renderer" content="webkit">
+	<meta content="telephone=no" name="format-detection" /> 
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" type="text/css" href="../dist/css/mybootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../dist/css/base.css"/>
+    <!--[if lt IE 9]>
+		<script src="../dist/js/html5.min.js"></script>
+		<script src="../dist/js/respond.min.js"></script>
+		<script src="../dist/js/selectivizr-min.js"></script>
+		<![endif]-->
+		<style type="text/css">
+			.add-btn:hover,
+			.add-btn:active,
+			.add-btn:focus {
+				color: #666;
+			}
+			.search-select {
+				height: 30px;
+				border: 1px solid #c0cdd8;
+				padding-left: 10px;
+				position: relative;
+				margin-bottom: 15px;
+			}
+			
+			.search-select.active {
+				border-color: #108ee9;
+			}
+			
+			.search-select:after {
+				content: "";
+				z-index: 10;
+				position: absolute;
+				display: inline-block;
+				width: 6px;
+				height: 6px;
+				top: 10px;
+				right: 10px;
+				font-size: 12px;
+				border-top: 1px solid #999;
+				border-left: 1px solid #999;
+				background-color: transparent;
+				-webkit-transform: rotate(225deg);
+				-moz-transform: rotate(225deg);
+				transform: rotate(225deg);
+			}
+			
+			.search-select .s-sel {
+				position: absolute;
+				top: 0;
+				right: 0;
+				height: 100%;
+				width: 28px;
+				cursor: pointer;
+				background-color: #fff;
+			}
+			
+			.search-select.active ul {
+				display: inline-block;
+				border-top-color: #108ee9;
+			}
+			
+			.search-select ul {
+				display: none;
+				position: absolute;
+				left: -1px;
+				top: 35px;
+				vertical-align: middle;
+				width: 100%;
+				max-height: 200px;
+				overflow-y: auto;
+				margin-top: -5px;
+				border: 1px solid #c3c8c7;
+				border-radius: 2px;
+				border-top-left-radius: 0;
+				border-top-right-radius: 0;
+				list-style: none;
+				z-index: 100;
+				background-color: #fff;
+				word-wrap: break-word;
+				-webkit-box-sizing: content-box;
+				-moz-box-sizing: content-box;
+				box-sizing: content-box;
+			}
+			
+			.search-select ul li {
+				width: 100%;
+				height: 35px;
+				line-height: 35px;
+			}
+			
+			.search-select ul a:hover {
+				background-color: #108ee9;
+				color: #fff;
+			}
+			
+			.search-select ul li a {
+				display: inline-block;
+				width: 100%;
+				height: 100%;
+				line-height: 35px;
+				text-indent: 5px;
+				text-decoration: none;
+				font-size: 14px;
+				font-weight: 500;
+				color: #454a51;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				display: block;
+			}
+			
+			.search-select ul li.null-msg {
+				display: none;
+				padding: 0 10px;
+				box-sizing: border-box;
+				color: #666;
+			}
+			
+			.search-select.active ul {
+				display: block;
+			}
+			
+			.search-select ul li.null-msg.active {
+				display: block;
+			}
+			.add-btn {
+				border: 1px dashed #808080;
+				color: #B5B5B5;
+				display: inline-block;
+				text-align: center;
+				line-height: 26px;
+				vertical-align: middle;
+			}
+		</style>
+</head>
+<body>
+	<div class="container-fluid top">
+		<div class="pb15"><b class="ft20">设置关联楼盘</b></div>
+		<form class="form-content">
+			<div class="form-group  top-form "></div>
+			<div class="mt15">
+				<div class="dib search-select w140 mr10">
+					<input type="text" class="wc hc " value="" placeholder="市\区\县" />
+					<span class="s-sel"></span>
+					<ul class="none" data-val="2">
+						<li data-val="1">
+							<a href="javascript:void(0);">成都</a>
+						</li>
+						<li data-val="2">
+							<a href="javascript:void(0);">上海</a>
+						</li>
+						<li data-val="3">
+							<a href="javascript:void(0);">北京</a>
+						</li>
+						<li data-val="4">
+							<a href="javascript:void(0);">绵阳</a>
+						</li>
+						<li data-val="5">
+							<a href="javascript:void(0);">德阳</a>
+						</li>
+						<li data-val="3">
+							<a href="javascript:void(0);">北京</a>
+						</li>
+						<li data-val="4">
+							<a href="javascript:void(0);">绵阳</a>
+						</li>
+						<li data-val="5">
+							<a href="javascript:void(0);">德阳</a>
+						</li>
+						<li data-val="3">
+							<a href="javascript:void(0);">北京</a>
+						</li>
+						<li data-val="4">
+							<a href="javascript:void(0);">绵阳</a>
+						</li>
+						<li data-val="5">
+							<a href="javascript:void(0);">德阳</a>
+						</li>
+						<li data-val="3">
+							<a href="javascript:void(0);">北京</a>
+						</li>
+						<li data-val="4">
+							<a href="javascript:void(0);">绵阳</a>
+						</li>
+						<li data-val="5">
+							<a href="javascript:void(0);">德阳</a>
+						</li>
+						<li data-val="3">
+							<a href="javascript:void(0);">北京</a>
+						</li>
+						<li data-val="4">
+							<a href="javascript:void(0);">绵阳</a>
+						</li>
+						<li data-val="5">
+							<a href="javascript:void(0);">德阳</a>
+						</li>
+						<li data-val="3">
+							<a href="javascript:void(0);">北京</a>
+						</li>
+						<li data-val="4">
+							<a href="javascript:void(0);">绵阳</a>
+						</li>
+						<li data-val="5">
+							<a href="javascript:void(0);">德阳</a>
+						</li>
+						<li class="null-msg">没有匹配到</li>
+					</ul>
+				</div>
+				<div class="dib search-select w140 mr10">
+					<input type="text" class="wc hc " value="" placeholder="市\区\县" />
+					<span class="s-sel"></span>
+					<ul class="none" data-val="2">
+						<li data-val="1">
+							<a href="javascript:void(0);">成都</a>
+						</li>
+						<li data-val="2">
+							<a href="javascript:void(0);">上海</a>
+						</li>
+						<li data-val="3">
+							<a href="javascript:void(0);">北京</a>
+						</li>
+						<li data-val="4">
+							<a href="javascript:void(0);">绵阳</a>
+						</li>
+						<li data-val="5">
+							<a href="javascript:void(0);">德阳</a>
+						</li>
+						<li data-val="3">
+							<a href="javascript:void(0);">北京</a>
+						</li>
+						<li data-val="4">
+							<a href="javascript:void(0);">绵阳</a>
+						</li>
+						<li data-val="5">
+							<a href="javascript:void(0);">德阳</a>
+						</li>
+						<li data-val="3">
+							<a href="javascript:void(0);">北京</a>
+						</li>
+						<li data-val="4">
+							<a href="javascript:void(0);">绵阳</a>
+						</li>
+						<li data-val="5">
+							<a href="javascript:void(0);">德阳</a>
+						</li>
+						<li data-val="3">
+							<a href="javascript:void(0);">北京</a>
+						</li>
+						<li data-val="4">
+							<a href="javascript:void(0);">绵阳</a>
+						</li>
+						<li data-val="5">
+							<a href="javascript:void(0);">德阳</a>
+						</li>
+						<li data-val="3">
+							<a href="javascript:void(0);">北京</a>
+						</li>
+						<li data-val="4">
+							<a href="javascript:void(0);">绵阳</a>
+						</li>
+						<li data-val="5">
+							<a href="javascript:void(0);">德阳</a>
+						</li>
+						<li data-val="3">
+							<a href="javascript:void(0);">北京</a>
+						</li>
+						<li data-val="4">
+							<a href="javascript:void(0);">绵阳</a>
+						</li>
+						<li data-val="5">
+							<a href="javascript:void(0);">德阳</a>
+						</li>
+						<li class="null-msg">没有匹配到</li>
+					</ul>
+				</div>
+				<div class="dib search-select w140 mr10">
+					<input type="text" class="wc hc " value="" placeholder="选择关联楼盘" />
+					<span class="s-sel"></span>
+					<ul class="none" data-val="2">
+						<li data-val="1">
+							<a href="javascript:void(0);">成都</a>
+						</li>
+						<li data-val="2">
+							<a href="javascript:void(0);">上海</a>
+						</li>
+						<li data-val="3">
+							<a href="javascript:void(0);">北京</a>
+						</li>
+						<li data-val="4">
+							<a href="javascript:void(0);">绵阳</a>
+						</li>
+						<li data-val="5">
+							<a href="javascript:void(0);">德阳</a>
+						</li>
+						<li data-val="3">
+							<a href="javascript:void(0);">北京</a>
+						</li>
+						<li data-val="4">
+							<a href="javascript:void(0);">绵阳</a>
+						</li>
+						<li data-val="5">
+							<a href="javascript:void(0);">德阳</a>
+						</li>
+						<li data-val="3">
+							<a href="javascript:void(0);">北京</a>
+						</li>
+						<li data-val="4">
+							<a href="javascript:void(0);">绵阳</a>
+						</li>
+						<li data-val="5">
+							<a href="javascript:void(0);">德阳</a>
+						</li>
+						<li data-val="3">
+							<a href="javascript:void(0);">北京</a>
+						</li>
+						<li data-val="4">
+							<a href="javascript:void(0);">绵阳</a>
+						</li>
+						<li data-val="5">
+							<a href="javascript:void(0);">德阳</a>
+						</li>
+						<li data-val="3">
+							<a href="javascript:void(0);">北京</a>
+						</li>
+						<li data-val="4">
+							<a href="javascript:void(0);">绵阳</a>
+						</li>
+						<li data-val="5">
+							<a href="javascript:void(0);">德阳</a>
+						</li>
+						<li data-val="3">
+							<a href="javascript:void(0);">北京</a>
+						</li>
+						<li data-val="4">
+							<a href="javascript:void(0);">绵阳</a>
+						</li>
+						<li data-val="5">
+							<a href="javascript:void(0);">德阳</a>
+						</li>
+						<li class="null-msg">没有匹配到</li>
+					</ul>
+				</div>
+				<!-- 隐藏楼盘搜索框 用做克隆  -->
+				<div class="call hide">
+                	<div class="dib search-select w140 mr10">
+					<input type="text" class="wc hc " value="" placeholder="市\区\县" />
+					<span class="s-sel"></span>
+					<ul class="none" data-val="2">
+						<li data-val="1">
+							<a href="javascript:void(0);">成都</a>
+						</li>
+						<li data-val="2">
+							<a href="javascript:void(0);">上海</a>
+						</li>
+						<li data-val="3">
+							<a href="javascript:void(0);">北京</a>
+						</li>
+						<li data-val="4">
+							<a href="javascript:void(0);">绵阳</a>
+						</li>
+						<li data-val="5">
+							<a href="javascript:void(0);">德阳</a>
+						</li>
+						<li data-val="3">
+							<a href="javascript:void(0);">北京</a>
+						</li>
+						<li data-val="4">
+							<a href="javascript:void(0);">绵阳</a>
+						</li>
+						<li data-val="5">
+							<a href="javascript:void(0);">德阳</a>
+						</li>
+						<li data-val="3">
+							<a href="javascript:void(0);">北京</a>
+						</li>
+						<li data-val="4">
+							<a href="javascript:void(0);">绵阳</a>
+						</li>
+						<li data-val="5">
+							<a href="javascript:void(0);">德阳</a>
+						</li>
+						<li data-val="3">
+							<a href="javascript:void(0);">北京</a>
+						</li>
+						<li data-val="4">
+							<a href="javascript:void(0);">绵阳</a>
+						</li>
+						<li data-val="5">
+							<a href="javascript:void(0);">德阳</a>
+						</li>
+						<li data-val="3">
+							<a href="javascript:void(0);">北京</a>
+						</li>
+						<li data-val="4">
+							<a href="javascript:void(0);">绵阳</a>
+						</li>
+						<li data-val="5">
+							<a href="javascript:void(0);">德阳</a>
+						</li>
+						<li data-val="3">
+							<a href="javascript:void(0);">北京</a>
+						</li>
+						<li data-val="4">
+							<a href="javascript:void(0);">绵阳</a>
+						</li>
+						<li data-val="5">
+							<a href="javascript:void(0);">德阳</a>
+						</li>
+						<li class="null-msg">没有匹配到</li>
+					</ul>
+				</div>
+                </div>
+				<a class="add-btn w140" href="javascript:void(0);"> + 添加楼盘</a>
+			</div>
+		</form>
+	</div>
+</body>
+<script src="../dist/js/jquery.min.js" type="text/javascript"></script>
+<script src="../dist/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="../dist/js/base.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$(function() {
+		/*
+		 * 输入框下拉菜单
+		 * 
+		 */
+
+		//搜索下拉选择框获取焦点
+		$(document.body).on('focus', ".search-select input[type='text']", function() {
+			$(this).parent().addClass("active");
+		});
+		//搜索下拉选择框获取焦点
+		$(document.body).on('blur', ".search-select input[type='text']", function() {
+			if($(this).parent().hasClass("noScreen") && $(this).val() == "") {
+				$(this).siblings("ul").attr("data-val", "");
+			}
+		});
+		//搜索下拉选择框点击空白处关闭
+		$(document).on("click", function(e) {
+			if($(e.target).closest(".search-select").length <= 0) {
+				$(".search-select").removeClass("active");
+			}
+		});
+		//点击选择箭头
+		$(document.body).on("click", ".search-select .s-sel", function(e) {
+			$(this).parent().toggleClass("active");
+		});
+		//添加楼盘
+		$(".add-btn").on("click", function(e) {
+			$(".call .search-select").clone().insertBefore(this);
+		});
+	});
+</script>
+</html>
